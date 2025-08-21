@@ -7,17 +7,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	image    string
+	platform string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "dscan",
 	Long:  "dscan is a tool that can help you to scan local and remote Docker images'",
 	Short: "Cool tool I guess",
-	Args:  cobra.MinimumNArgs(2),
+	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		port, err := cmd.Flags().GetInt("port")
+		image, err := cmd.Flags().GetString("image")
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Serving on :%d\n", port)
+		fmt.Printf("Image :%s\n", image)
 		return nil
 	},
 }
@@ -30,5 +35,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().String("i", "", "Image to scan")
+	rootCmd.PersistentFlags().StringVar(&image, "image", "", "Image to scan")
 }
